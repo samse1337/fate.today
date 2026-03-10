@@ -1,0 +1,829 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 217 91% 60%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+    overscroll-behavior: none;
+  }
+  body {
+    @apply bg-black text-white antialiased;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+/* ==================== Hello欢迎动画 - Borel字体 ==================== */
+.hello-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hello-screen.exiting {
+  animation: helloExit 0.8s ease-in forwards;
+}
+
+.hello-text {
+  font-family: 'Borel', cursive;
+  font-size: clamp(4rem, 18vw, 10rem);
+  font-weight: 400;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0);
+  opacity: 0;
+  transform: scale(0.8);
+  filter: blur(20px);
+  animation: helloEnter 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hello-text.visible {
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 1);
+}
+
+@keyframes helloEnter {
+  0% {
+    opacity: 0;
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0);
+    transform: scale(0.7);
+    filter: blur(20px);
+  }
+  50% {
+    opacity: 0.5;
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.5);
+    filter: blur(8px);
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 1);
+    filter: blur(0px);
+    transform: scale(1);
+  }
+}
+
+@keyframes helloExit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+    filter: blur(30px);
+    visibility: hidden;
+  }
+}
+
+/* ==================== 动态蓝黑流光背景 ==================== */
+.flowing-bg {
+  background: #000;
+  position: relative;
+  min-height: 100vh;
+}
+
+.flowing-aurora {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.flowing-aurora::before {
+  content: '';
+  position: absolute;
+  width: 400%;
+  height: 400%;
+  top: -150%;
+  left: -150%;
+  background: 
+    radial-gradient(ellipse 120% 60% at 5% 25%, rgba(37, 99, 235, 0.5) 0%, transparent 45%),
+    radial-gradient(ellipse 100% 50% at 95% 75%, rgba(59, 130, 246, 0.4) 0%, transparent 40%);
+  animation: blueFlow 12s ease-in-out infinite;
+}
+
+.flowing-aurora::after {
+  content: '';
+  position: absolute;
+  width: 400%;
+  height: 400%;
+  top: -150%;
+  left: -150%;
+  background: 
+    radial-gradient(ellipse 100% 55% at 85% 15%, rgba(15, 23, 42, 0.7) 0%, transparent 45%),
+    radial-gradient(ellipse 80% 45% at 15% 85%, rgba(30, 41, 59, 0.6) 0%, transparent 40%);
+  animation: darkFlow 15s ease-in-out infinite reverse;
+}
+
+@keyframes blueFlow {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  50% { transform: translate(10%, -5%) rotate(3deg) scale(1.1); }
+}
+
+@keyframes darkFlow {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  50% { transform: translate(-8%, 8%) rotate(-3deg) scale(1.08); }
+}
+
+.flowing-lines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.flowing-lines::before {
+  content: '';
+  position: absolute;
+  width: 500%;
+  height: 500%;
+  top: -200%;
+  left: -200%;
+  background: repeating-linear-gradient(45deg, transparent, transparent 100px, rgba(37, 99, 235, 0.04) 100px, rgba(37, 99, 235, 0.04) 101px);
+  animation: lineFlow 20s linear infinite;
+}
+
+@keyframes lineFlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ==================== 导航栏 ==================== */
+.navbar-blur {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ==================== 字体样式 ==================== */
+.opal-title {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #ffffff;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 25px rgba(255, 255, 255, 0.3));
+}
+
+.opal-subtitle {
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+  color: #ffffff;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+}
+
+/* ==================== 弹窗动画 ==================== */
+@keyframes modalBackdropIn {
+  0% { backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+  100% { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+}
+
+@keyframes modalBackdropOut {
+  0% { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  100% { backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+}
+
+@keyframes modalContentIn {
+  0% { opacity: 0; transform: scale(0.9) translateY(20px); filter: blur(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+}
+
+@keyframes modalContentOut {
+  0% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+  100% { opacity: 0; transform: scale(0.9) translateY(20px); filter: blur(10px); }
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: modalBackdropIn 0.4s ease-out forwards;
+}
+
+.modal-overlay.closing {
+  animation: modalBackdropOut 0.4s ease-in forwards;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(37, 99, 235, 0.15);
+  animation: modalContentIn 0.4s ease-out forwards;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-content.closing {
+  animation: modalContentOut 0.4s ease-in forwards;
+}
+
+/* ==================== 手机端菜单动画 ==================== */
+@keyframes mobileMenuSlideIn {
+  0% { opacity: 0; transform: translateY(-10px); max-height: 0; }
+  100% { opacity: 1; transform: translateY(0); max-height: 400px; }
+}
+
+@keyframes mobileMenuSlideOut {
+  0% { opacity: 1; transform: translateY(0); max-height: 400px; }
+  100% { opacity: 0; transform: translateY(-10px); max-height: 0; }
+}
+
+.mobile-menu-opening {
+  animation: mobileMenuSlideIn 0.4s ease-out forwards;
+  overflow: hidden;
+}
+
+.mobile-menu-closing {
+  animation: mobileMenuSlideOut 0.3s ease-in forwards;
+  overflow: hidden;
+}
+
+/* ==================== 音乐播放器 - 丝滑动画 ==================== */
+@keyframes miniExpand {
+  0% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(12px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+}
+
+@keyframes miniCollapse {
+  0% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+  100% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(12px); }
+}
+
+@keyframes fullExpand {
+  0% { opacity: 0; transform: scale(0.85) translateY(30px); filter: blur(15px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+}
+
+@keyframes fullCollapse {
+  0% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+  100% { opacity: 0; transform: scale(0.85) translateY(30px); filter: blur(15px); }
+}
+
+@keyframes musicWave {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+
+.music-player-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 100;
+}
+
+.music-player-container.collapsed {
+  animation: miniExpand 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.music-player-container.collapsed.exiting {
+  animation: miniCollapse 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.music-player-container.expanded {
+  animation: fullExpand 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.music-player-container.expanded.exiting {
+  animation: fullCollapse 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.music-player-mini {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.music-player-mini:hover {
+  background: rgba(0, 0, 0, 0.9);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 25px rgba(37, 99, 235, 0.3);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.music-waves {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+}
+
+.music-wave {
+  width: 3px;
+  background: linear-gradient(180deg, #60a5fa, #2563eb);
+  border-radius: 2px;
+  animation: musicWave 0.5s ease-in-out infinite;
+}
+
+.music-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.music-lyric-text {
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.music-song-title {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.7rem;
+}
+
+.music-expand-icon {
+  width: 1rem;
+  height: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.music-player-mini:hover .music-expand-icon {
+  transform: translateY(-2px);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.music-player-full {
+  width: 320px;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(37, 99, 235, 0.1);
+}
+
+.music-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.music-header-title {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.music-close-btn {
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease;
+}
+
+.music-close-btn:hover {
+  color: white;
+  transform: scale(1.1);
+}
+
+.music-song-info {
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.music-title {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.music-artist {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+}
+
+.music-lyrics-box {
+  height: 100px;
+  margin-bottom: 0.75rem;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.music-lyrics-box::-webkit-scrollbar {
+  display: none;
+}
+
+.music-lyric-line {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  padding: 0.25rem 0;
+  transition: all 0.3s ease;
+}
+
+.music-lyric-line.active {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+}
+
+.music-progress {
+  margin-bottom: 0.75rem;
+}
+
+.music-progress-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.music-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.music-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 0.25rem;
+}
+
+.music-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.music-control-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.music-control-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.music-play-btn {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+}
+
+.music-play-btn:hover {
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+}
+
+.music-volume {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.music-mute-btn {
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s ease;
+}
+
+.music-mute-btn:hover {
+  color: white;
+}
+
+.music-volume-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.music-volume-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.music-playlist {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 0.5rem;
+}
+
+.music-playlist-title {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.music-playlist-items {
+  max-height: 120px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.music-playlist-items::-webkit-scrollbar {
+  display: none;
+}
+
+.music-playlist-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s ease;
+}
+
+.music-playlist-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.music-playlist-item.active {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+.music-playlist-number {
+  width: 1.25rem;
+  text-align: center;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.music-playlist-item.active .music-playlist-number {
+  color: #60a5fa;
+}
+
+.music-playlist-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==================== 语言切换弹窗 - 高斯模糊 ==================== */
+@keyframes dropdownOpen {
+  0% { opacity: 0; transform: translateY(-10px) scale(0.95); filter: blur(8px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+}
+
+@keyframes dropdownClose {
+  0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+  100% { opacity: 0; transform: translateY(-10px) scale(0.95); filter: blur(8px); }
+}
+
+@keyframes optionSlideIn {
+  0% { opacity: 0; transform: translateX(-10px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(37, 99, 235, 0.1);
+  min-width: 160px;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.language-dropdown.opening {
+  animation: dropdownOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.language-dropdown.closing {
+  animation: dropdownClose 0.2s ease-in forwards;
+}
+
+.language-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.2s ease;
+  opacity: 0;
+  animation: optionSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.language-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.language-option.active {
+  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.15);
+}
+
+.language-flag {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+/* ==================== 通用动画 ==================== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(2rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.165, 0.840, 0.440, 1) forwards;
+}
+
+/* ==================== 卡片悬停效果 ==================== */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 10px 40px rgba(37, 99, 235, 0.15);
+  transform: translateY(-6px);
+}
+
+/* ==================== 按钮效果 ==================== */
+.btn-primary {
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.25);
+}
+
+.btn-secondary {
+  transition: all 0.25s ease;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(37, 99, 235, 0.15);
+  border-color: rgba(37, 99, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ==================== 视频卡片 ==================== */
+.video-card {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: all 0.3s ease;
+}
+
+.video-card:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 10px 40px rgba(37, 99, 235, 0.15);
+  transform: translateY(-6px);
+}
+
+/* ==================== 购买按钮 ==================== */
+.btn-purchase {
+  background: linear-gradient(135deg, #fff 0%, #e8e8e8 100%);
+  color: #000;
+  transition: all 0.25s ease;
+}
+
+.btn-purchase:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
+}
+
+/* ==================== 定价卡片 ==================== */
+.pricing-card {
+  transition: all 0.3s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(37, 99, 235, 0.1);
+}
+
+/* ==================== Beta标签 ==================== */
+.beta-badge {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* ==================== 移动端优化 ==================== */
+@media (max-width: 768px) {
+  .music-player-expanded {
+    width: calc(100vw - 2rem);
+    right: 1rem;
+    left: 1rem;
+  }
+}
+
+/* ==================== Reduced motion ==================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
