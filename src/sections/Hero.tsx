@@ -46,7 +46,7 @@ export default function Hero() {
         <div className="animate-on-scroll animate-initial mb-6 sm:mb-8">
           <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-6">
             <img
-              src="/fate-logo.png"
+              src={`${import.meta.env.BASE_URL}fate-logo.png`}
               alt="Fate Client"
               className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 logo-glow"
               style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 20px rgba(255,255,255,0.6)) drop-shadow(0 0 40px rgba(255,255,255,0.3))' }}

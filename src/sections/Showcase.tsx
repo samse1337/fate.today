@@ -134,7 +134,7 @@ export default function Showcase() {
               <div className="flex-shrink-0">
                 <div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 bg-blue-500/10 rounded-2xl flex items-center justify-center border border-blue-400/20">
                   <img
-                    src="/fate-logo.png"
+                    src={`${import.meta.env.BASE_URL}fate-logo.png`}
                     alt="Fate Client"
                     className="w-14 h-14 sm:w-20 sm:h-20 lg:w-24 lg:h-24"
                     style={{ filter: 'brightness(0) invert(1)' }}

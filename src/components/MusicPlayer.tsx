@@ -29,16 +29,18 @@ export default function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const baseUrl = import.meta.env.BASE_URL;
+
   // 加载播放列表
   useEffect(() => {
-    fetch('/music/playlist.json')
+    fetch(`${baseUrl}music/playlist.json`)
       .then(res => res.json())
       .then((data: Song[]) => {
         setPlaylist(data);
         setIsLoading(false);
       })
       .catch(() => setIsLoading(false));
-  }, []);
+  }, [baseUrl]);
 
   const currentSong = playlist[currentSongIndex];
 
@@ -68,20 +70,20 @@ export default function MusicPlayer() {
   useEffect(() => {
     if (!currentSong) return;
     
-    fetch(`/music/${currentSong.lyric}`)
+    fetch(`${baseUrl}music/${currentSong.lyric}`)
       .then(res => res.text())
       .then(text => {
         setLyrics(parseLRC(text));
         setCurrentLyricIndex(0);
       })
       .catch(() => setLyrics([]));
-  }, [currentSong, parseLRC]);
+  }, [currentSong, parseLRC, baseUrl]);
 
   // 初始化音频
   useEffect(() => {
     if (!currentSong) return;
     
-    const audio = new Audio(`/music/${currentSong.file}`);
+    const audio = new Audio(`${baseUrl}music/${currentSong.file}`);
     audioRef.current = audio;
 
     audio.addEventListener('loadedmetadata', () => {

@@ -22,3 +22,8 @@ npm-debug.log*
 # OS
 .DS_Store
 Thumbs.db
+
+# AI generated / setup scripts
+创建仓库指南.md
+setup-repo.ps1
+info.md

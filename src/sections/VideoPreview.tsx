@@ -2,16 +2,17 @@ import { useEffect, useRef } from 'react';
 import { ExternalLink } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
+const baseUrl = import.meta.env.BASE_URL;
 const videos = [
   {
     title: '向夜晚奔去 ft.fate',
     url: 'https://b23.tv/IlW8fvQ',
-    cover: '/video1.jpg',
+    cover: `${baseUrl}video1.jpg`,
   },
   {
     title: '成为末日 ft.Fate',
     url: 'https://b23.tv/d2ICzQx',
-    cover: '/video2.jpg',
+    cover: `${baseUrl}video2.jpg`,
   },
 ];
 

@@ -63,7 +63,7 @@ export default function Navbar() {
             {/* Logo */}
             <a href="#hero" className="flex items-center gap-2 sm:gap-3">
               <img
-                src="/fate-logo.png"
+                src={`${import.meta.env.BASE_URL}fate-logo.png`}
                 alt="Fate Client"
                 className="w-7 h-7 sm:w-8 sm:h-8"
                 style={{ filter: 'brightness(0) invert(1)' }}

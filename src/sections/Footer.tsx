@@ -45,7 +45,7 @@ export default function Footer() {
           <div className="max-w-sm">
             <a href="#hero" className="flex items-center gap-2 sm:gap-3 mb-4">
               <img
-                src="/fate-logo.png"
+                src={`${import.meta.env.BASE_URL}fate-logo.png`}
                 alt="Fate Client"
                 className="w-8 h-8 sm:w-10 sm:h-10"
                 style={{ filter: 'brightness(0) invert(1)' }}
